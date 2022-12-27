@@ -12,10 +12,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/images/card3.png" />
       </Head>
-      <section className='bg-black min-h-screen'> 
+      <section className=' bg-stone-900 min-h-screen'> 
        <Hero/>
       </section>
       
     </>
   )
 }
+
+
+/*
+base color : #dddf00 
+black ; #333533
+*/
