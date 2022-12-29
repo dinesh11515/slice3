@@ -34,27 +34,19 @@ describe("Slice testing", function () {
   // });
 
   it("register", async function () {
-    const tx = await slice.register(50, ethers.utils.parseEther("10"));
+    const tx = await slice.register(50);
     await tx.wait();
     const user = await slice.users(signer.address);
-    expect(user.balance).to.equal(ethers.utils.parseEther("10"));
+    expect(user.balance).to.equal(ethers.utils.parseEther("700"));
   });
 
   it("borrow", async function () {
-    const amo = ethers.utils.parseEther("10");
-    let amount = amo;
+    const amount = ethers.utils.parseEther("10");
     const instalments = 3;
-    amount = amount.add(amount.div(100).mul(4).mul(instalments));
-    const instalment_amount = amount.div(instalments);
-    console.log(
-      "amount",
-      amount.toString(),
-      ethers.utils.formatEther(instalment_amount)
-    );
-    const tx = await slice.borrow(amo, instalments, instalment_amount);
+    const tx = await slice.borrow(amount, instalments);
     await tx.wait();
     const user = await slice.users(signer.address);
-    expect(user.borrowedAmount).to.equal(amo);
+    expect(user.borrowedAmount).to.equal(amount);
   });
 
   it("repay", async function () {
@@ -64,5 +56,8 @@ describe("Slice testing", function () {
     await tx.wait();
     user = await slice.users(signer.address);
     console.log("user", user);
+
+    const interest = await slice.totalInterest();
+    console.log("interest", interest);
   });
 });
