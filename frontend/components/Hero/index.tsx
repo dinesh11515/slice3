@@ -157,9 +157,45 @@ export default function Hero() {
 
       </div>
 
-      <footer>
-
+      
+      <footer className="bg-stone-700 text-white grid grid-cols-2 w-full">
+        <div className="flex flex-col items-start p-4 justify-start">
+        <p className="text-xl">The Slice3</p>
+        <p className="text-sm">The Decentralized way of making payments</p>
+        <div className="flex w-1/2  gap-4 mt-2">
+         
+            <img
+              className="cursor-pointer w-12"
+              src="/images/twitter.png"
+              alt="bg"
+             
+            />
+          
+          
+            <img
+              className="cursor-pointer"
+              src="/images/github.png"
+              alt="bg"
+              width={40}
+            />
+            <img
+              className="cursor-pointer w-12"
+              src="/images/linkedin.png"
+              alt="bg"
+             
+            />
+          </div>
+          
+          
+        </div>
+      
+        <span className=" py-2 mt-auto ml-auto mr-4  text-[#c7c7c7] text-xs">
+          ©2022 Slice3. ALL COPYRIGHTS RESERVED
+        </span>
       </footer>
+      
+      
+     
     </div>
   );
 }
