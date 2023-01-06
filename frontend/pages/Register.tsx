@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState, useRef } from "react";
-
-
+import { useContext } from "react";
+import { stateContext } from "../context/stateContext";
 interface MyVals {
   file: Blob | string;
   name: string;
@@ -9,9 +9,11 @@ interface MyVals {
 }
 
 type boolset = {
-  set : React.Dispatch<React.SetStateAction<any>>
-}
-export default function Publish({ set } : boolset) {
+  set: React.Dispatch<React.SetStateAction<any>>;
+};
+export default function Publish({ set }: boolset) {
+  const { connectWallet, account } = useContext(stateContext);
+
   const formEL = useRef<HTMLFormElement>(null!);
   const tokens = process.env.NEXT_PUBLIC_TOKEN;
 
@@ -21,10 +23,9 @@ export default function Publish({ set } : boolset) {
     description: "",
     contract: "",
   });
- function close(val :any){
-   set(val)
- }
-  
+  function close(val: any) {
+    set(val);
+  }
 
   function handleInput(e: any) {
     setAllInfo((prev) => {
@@ -35,11 +36,19 @@ export default function Publish({ set } : boolset) {
     });
   }
 
-  
+  const getCreditScore = async () => {
+    const res = await fetch(
+      `https://api.nomis.cc/api/v1/polygon/wallet/${account}/score`
+    );
+    const data = await res.json();
+    console.log(data);
+  };
+
+  getCreditScore();
 
   return (
     <div className="bg-gradient-to-br from-black to-zinc-700 min-h-screen w-full bg-cover bg-no-repeat flex  items-center justify-center ">
-      <form
+      {/* <form
         onSubmit={(e: any) => {
           e.preventDefault();
 
@@ -98,7 +107,14 @@ export default function Publish({ set } : boolset) {
         >
           Submit
         </button>
-      </form>
+      </form> */}
+      <div className="flex w-11/12 md:w-2/3 rounded-lg bg-white/30 backdrop-blur-sm flex-col items-start p-3 justify-center ">
+        <p>
+          Connect your wallet and check your credit score of your wallet and
+          register here to avail some credit
+        </p>
+        <button onClick={connectWallet}>Connect wallet</button>
+      </div>
     </div>
   );
 }
