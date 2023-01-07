@@ -1,7 +1,9 @@
 import { createContext, useState } from "react";
 import { ethers } from "ethers";
 import { SiweMessage } from "siwe";
-
+import { contractAddress, abi } from "../constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const stateContext = createContext<any>("");
 
 export default function Layout({ children }: any) {
@@ -64,15 +66,79 @@ export default function Layout({ children }: any) {
       setConnected(true);
       const address = await signer.getAddress();
       setAccount(address);
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+      setContract(contract);
     } catch (err) {
       alert(err);
     }
   };
+
   const disconnect = async () => {
     setConnected(false);
     setProvider(null);
     setContract(null);
     setAccount("");
+  };
+
+  const invest = async (amount: number) => {
+    try {
+      const tx = await contract.invest(
+        ethers.utils.parseEther(amount.toString()),
+        {
+          value: ethers.utils.parseEther(amount.toString()),
+        }
+      );
+      await tx.wait();
+      toast.success("Invested successful");
+    } catch (err) {
+      console.log(err, "Investment failed");
+    }
+  };
+
+  const withdraw = async (amount: number) => {
+    try {
+      const tx = await contract.withdraw(
+        ethers.utils.parseEther(amount.toString())
+      );
+      await tx.wait();
+      toast.success("Withdraw successful");
+    } catch (err) {
+      console.log(err, "Withdraw failed");
+    }
+  };
+
+  const register = async (score: number) => {
+    try {
+      const tx = await contract.register(score);
+      await tx.wait();
+      toast.success("Registration successful");
+    } catch (err) {
+      console.log(err, "Registration failed");
+    }
+  };
+
+  const borrow = async (amount: number, instalments: number) => {
+    try {
+      const tx = await contract.borrow(
+        ethers.utils.parseEther(amount.toString()),
+        instalments
+      );
+      await tx.wait();
+      toast.success("Borrow successful");
+    } catch (err) {
+      console.log(err, "Borrow failed");
+    }
+  };
+
+  const repay = async () => {
+    try {
+      const user = await contract.users(account);
+      const tx = await contract.repay({ value: user.instalmentAmount });
+      await tx.wait();
+      toast.success("Repay successful");
+    } catch (err) {
+      console.log(err, "Repay failed");
+    }
   };
 
   return (

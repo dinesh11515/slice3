@@ -6,7 +6,7 @@ contract Slice is Ownable {
     uint256 public totalInvested;
     uint256 public totalBorrowed;
     uint256 public totalInterest;
-    uint256 public investors;
+    uint256 public investorCount;
 
     uint8 public charge = 4;
 
@@ -43,7 +43,7 @@ contract Slice is Ownable {
         investors[msg.sender].balance += amount;
         investors[msg.sender].timeStamp = block.timestamp;
         totalInvested += amount;
-        investors += 1;
+        investorCount += 1;
         emit Invested(msg.sender, amount, block.timestamp);
     }
 
@@ -56,8 +56,8 @@ contract Slice is Ownable {
             investors[msg.sender].timeStamp + 30 days <= block.timestamp,
             "You can withdraw after 30 days"
         );
-        investors[msg.sender].balance += totalInterest / investors;
-        totalInterest -= totalInterest / investors;
+        investors[msg.sender].balance += totalInterest / investorCount;
+        totalInterest -= totalInterest / investorCount;
         investors[msg.sender].balance -= amount;
         investors[msg.sender].timeStamp = block.timestamp;
         totalInvested -= amount;
