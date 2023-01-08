@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useState, useRef } from "react";
+import { Web3Button, Web3Modal, Web3NetworkSwitch } from "@web3modal/react";
 import { useContext } from "react";
 import { stateContext } from "../context/stateContext";
+import UAuth from "@uauth/js";
 interface MyVals {
   file: Blob | string;
   name: string;
@@ -43,8 +45,6 @@ export default function Publish({ set }: boolset) {
     const data = await res.json();
     console.log(data);
   };
-
-  getCreditScore();
 
   return (
     <div className="bg-gradient-to-br from-black to-zinc-700 min-h-screen w-full bg-cover bg-no-repeat flex  items-center justify-center ">
@@ -114,6 +114,7 @@ export default function Publish({ set }: boolset) {
           register here to avail some credit
         </p>
         <button onClick={connectWallet}>Connect wallet</button>
+        <Web3Button icon="show" label="Connect Wallet" balance="show" />
       </div>
     </div>
   );
