@@ -5,7 +5,7 @@ import { contractAddress, abi } from "../constants";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardLayout from "../components/DashboardLayout";
-export default function () {
+export default function Dashboard() {
   const { isOpen, open, close } = useWeb3Modal();
   const { data: signer, isError, isLoading } = useSigner();
   const { address, isConnecting, isDisconnected, isConnected } = useAccount();
