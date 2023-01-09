@@ -98,7 +98,7 @@ export default function Dashboard() {
             <h1 className="font-slack font-semibold sm:text-7xl text-5xl text-center text-stone-900 mt-auto absolute top-3/4 left-2/4 -translate-x-1/2  z-0">
               {isConnected
                 ? "Registration in One Click"
-                : "Connect wallet to register"}
+                : "Connect wallet to enter"}
             </h1>
             <ToastContainer />
           </div>

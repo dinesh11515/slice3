@@ -18,7 +18,7 @@ export default function Hero() {
           </p>
         </div>
         <div className=" bg-[#333533]  w-3/6 flex items-center justify-center flex-col pt-8 rounded-md">
-          <Link href={"/"}>
+          <Link href={"/Dashboard"}>
             <p className="sm:text-2xl text-x/l py-1 px-3 rounded-md transition-all duration-150 ease-linear hover:bg-[#bbbf00]  hover:text-stone-900 border border-dashed border-[#dddf00] text-[#dddf00]  font-slack font-extralight">
               Get Started <span>&#10621;</span>
             </p>
