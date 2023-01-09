@@ -113,21 +113,29 @@ export default function Hero() {
           </div> */}
         </div>
 
+
+        <div className=" flex  gap-8 flex-wrap items-center justify-evenly text-white sm:my-16 my-8 w-full">
+          <div className="flex flex-col items-center justify-center gap-3">
+            <img src="/images/coinbase.svg" alt="img" className="w-24 rounded-full" />
+            <p className="text-3xl">Coinbase</p>
+           
+
         {/* <div className=" flex  gap-8 flex-wrap items-center justify-evenly text-white sm:my-16 my-8 w-full">
           <div>
             <img src="/images/hero.png" alt="img" className="w-12" />
             <p className="text-3xl">Twitter</p>
             <p className="text-xl">20,000</p>
+
           </div>
-          <div>
-            <img src="/images/hero.png" alt="img" className="w-12" />
-            <p className="text-3xl">facebook</p>
-            <p className="text-xl">60,000</p>
+          <div className="flex flex-col items-center justify-center gap-3">
+            <img src="/images/poly.jpg" alt="img" className="w-24 rounded-full" />
+            <p className="text-3xl">Polygon</p>
+           
           </div>
-          <div>
-            <img src="/images/hero.png" alt="img" className="w-12" />
-            <p className="text-3xl">alltime</p>
-            <p className="text-xl">180,000</p>
+          <div className="flex flex-col items-center justify-center gap-3">
+            <img src="/images/unstop.jpg" alt="img" className="w-24 rounded-full" />
+            <p className="text-3xl">Unstopable Domain</p>
+           
           </div>
         </div> */}
         <div className="flex w-full items-start justify-start flex-col ">
@@ -140,7 +148,7 @@ export default function Hero() {
             So What You Are Waiting For???
           </p>
           <p className="sm:text-2xl text-xl text-white">
-            Lets get started by doing this
+            Lets get started 
           </p>
 
           <Link

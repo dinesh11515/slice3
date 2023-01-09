@@ -30,6 +30,13 @@ const wagmiClient = createClient({
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 export default function App({ Component, pageProps }: AppProps) {
   return (
+
+    <div className="relative">
+  
+      <Navbar />
+      <Component {...pageProps} />
+    </div>
+
     <>
       <WagmiConfig client={wagmiClient}>
         <Layout>
@@ -43,5 +50,6 @@ export default function App({ Component, pageProps }: AppProps) {
         ethereumClient={ethereumClient}
       />
     </>
+
   );
 }

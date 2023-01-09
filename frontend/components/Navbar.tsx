@@ -36,7 +36,7 @@ export default function Navbar() {
 
   return (
 
-    <nav className="sm:w-full w-2/3  z-80 font-slack mx-auto my-1 p-0 sm:border-none border-2 border-dashed border-stone-900 bg-[#dddf00] sm:bg-transparent  sm:rounded-none rounded-xl text-black sm:text-white flex items-start  backdrop-blur-sm justify-center transition-all duration-300 ease-linear fixed top-0 left-2/4 -translate-x-1/2">
+    <nav className="sm:w-full w-2/3   font-slack mx-auto my-1 p-0 sm:border-none border-2 border-dashed border-stone-900 bg-[#dddf00] sm:bg-transparent  sm:rounded-none rounded-xl text-black sm:text-white flex items-start  backdrop-blur-sm justify-center transition-all duration-300 ease-linear fixed z-80 top-0 left-2/4 -translate-x-1/2 float">
      
       <div className=" cursor-pointer z-80   flex items-center mt-3 mx-3 justify-center hover:scale-110 hover:bg-[#dddf00] rounded-md transition-all duration-200 ease-linear hover:text-black hover:px-2">
         <span className="font-press"><img src="/images/card3.png" alt="logo"  className="w-9 mr-2" /></span> Slice3
