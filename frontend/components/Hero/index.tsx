@@ -113,31 +113,32 @@ export default function Hero() {
           </div> */}
         </div>
 
-
         <div className=" flex  gap-8 flex-wrap items-center justify-evenly text-white sm:my-16 my-8 w-full">
           <div className="flex flex-col items-center justify-center gap-3">
-            <img src="/images/coinbase.svg" alt="img" className="w-24 rounded-full" />
+            <img
+              src="/images/coinbase.svg"
+              alt="img"
+              className="w-20 h-20 rounded-full"
+            />
             <p className="text-3xl">Coinbase</p>
-           
-
-        {/* <div className=" flex  gap-8 flex-wrap items-center justify-evenly text-white sm:my-16 my-8 w-full">
-          <div>
-            <img src="/images/hero.png" alt="img" className="w-12" />
-            <p className="text-3xl">Twitter</p>
-            <p className="text-xl">20,000</p>
-
           </div>
           <div className="flex flex-col items-center justify-center gap-3">
-            <img src="/images/poly.jpg" alt="img" className="w-24 rounded-full" />
+            <img
+              src="/images/poly.jpg"
+              alt="img"
+              className="w-20 h-20 rounded-full"
+            />
             <p className="text-3xl">Polygon</p>
-           
           </div>
           <div className="flex flex-col items-center justify-center gap-3">
-            <img src="/images/unstop.jpg" alt="img" className="w-24 rounded-full" />
-            <p className="text-3xl">Unstopable Domain</p>
-           
+            <img
+              src="/images/unstop.jpg"
+              alt="img"
+              className="w-20 h-20 rounded-full"
+            />
+            <p className="text-3xl">Unstoppable Domain</p>
           </div>
-        </div> */}
+        </div>
         <div className="flex w-full items-start justify-start flex-col ">
           <img
             src="/images/star.png"
@@ -147,12 +148,10 @@ export default function Hero() {
           <p className="sm:text-4xl text-2xl text-white">
             So What You Are Waiting For???
           </p>
-          <p className="sm:text-2xl text-xl text-white">
-            Lets get started 
-          </p>
+          <p className="sm:text-2xl text-xl text-white">Lets get started</p>
 
           <Link
-            href={"/"}
+            href={"/Dashboard"}
             className={
               "w-full flex items-center justify-center mx-auto sm:my-14 my-8"
             }

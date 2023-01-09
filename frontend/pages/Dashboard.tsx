@@ -1,85 +1,109 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useWeb3Modal } from "@web3modal/react";
+import { useContract, useSigner, useAccount } from "wagmi";
+import { contractAddress, abi } from "../constants";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import DashboardLayout from "../components/DashboardLayout";
+export default function () {
+  const { isOpen, open, close } = useWeb3Modal();
+  const { data: signer, isError, isLoading } = useSigner();
+  const { address, isConnecting, isDisconnected, isConnected } = useAccount();
+  const [hasRegistered, setHasRegistered] = useState<boolean>(false);
 
-export default function Dashboard() {
+  const contract = useContract({
+    address: contractAddress,
+    abi,
+    signerOrProvider: signer,
+  });
+
+  const connect = async () => {
+    await open();
+  };
+
+  const getCreditScore = async () => {
+    const res = await fetch(
+      `https://api.nomis.cc/api/v1/polygon/wallet/${address}/score`
+    );
+    const { data } = await res.json();
+    return data.score;
+  };
+
+  const register = async () => {
+    try {
+      let score = await getCreditScore();
+      score = Math.floor(score);
+      const tx = await contract?.register(score);
+      await tx.wait();
+      toast.success("Registration successful");
+    } catch (err) {
+      console.log(err, "Registration failed");
+    }
+  };
+
+  const setRegistered = async () => {
+    try {
+      const user = await contract?.users(address);
+      if (user.balance > 0) {
+        setHasRegistered(true);
+      }
+    } catch (err) {
+      console.log(err, "setRegistered");
+    }
+  };
+
+  useEffect(() => {
+    if (isConnected) {
+      setRegistered();
+    }
+  }, [signer]);
+
   return (
-    <div className="bg-stone-900  sm:py-16 py-24 flex  flex-col items-center justify-start min-h-screen gap-8 w-full z-0">
-      <div className="  w-11/12 bg-stone-800  rounded-2xl flex flex-col items-start justify-start text-white py-3 px-6 ">
-        <div className="flex  items-end justify-center  gap-2 ">
-          <p className="sm:text-5xl text-3xl text-[#dddf00] font-slack">
-            $80,000{" "}
-          </p>{" "}
-          <span>:Invested</span>
-        </div>
-        <p className="mt-4 text-xs">Want to Invest More ??</p>
-        <div className="flex gap-8 justify-start items-center w-full mt-8">
-          <p className="text-sm sm:text-base"> Enter Amount</p>{" "}
-          <input
-            type="number"
-            className="bg-transparent shadow-xl shadow-[#dddf00] border-none active:border-none focus:outline-none  rounded-md sm:text-4xl p-3 text-xl text-center active:outline-none active:border-black w-4/6 font-slack"
-            placeholder="Amount"
-          />
-        </div>
-        <button className="sm:text-2xl text-x/l py-1 px-3 rounded-md transition-all duration-150 ease-linear hover:bg-[#bbbf00] hover:shadow-xl  hover:shadow-[#dddf00] hover:text-stone-900 border border-dashed border-[#dddf00] text-[#dddf00]  font-slack font-extralight mt-10 ">
-          Submit
-        </button>
-      </div>
-      <div className=" w-11/12 bg-stone-800  rounded-2xl flex flex-col items-start justify-start text-white  py-3 px-6">
-        <div className="flex  items-end justify-center  gap-2 ">
-          <p className="sm:text-5xl text-3xl text-[#dddf00] font-slack">
-            $20,000{" "}
-          </p>{" "}
-          <span>:Borrowed</span>
-        </div>
-        <p className="mt-4 text-xs">Want to Borrow More ??</p>
-        <div className="flex sm:gap-8 gap-4 justify-start items-center w-full mt-8">
-          <p className="text-sm sm:text-base"> Enter Amount</p>{" "}
-          <input
-            type="number"
-            className="bg-transparent shadow-xl shadow-[#dddf00] border-none active:border-none focus:border-none focus:outline-none rounded-md p-3 sm:text-4xl text-xl text-center active:border-black w-4/6 font-slack"
-            placeholder="Amount"
-          />
-          <input
-            type="number"
-            className="bg-transparent shadow-xl shadow-[#dddf00] border-none active:border-none focus:border-none focus:outline-none p-3 rounded-md sm:text-2xl text-xs text-center active:border-black w-1/3 font-slack"
-            placeholder="Installments"
-          />
-        </div>
-        <button className="sm:text-2xl text-x/l py-1 px-3 rounded-md transition-all duration-150 ease-linear hover:bg-[#bbbf00] hover:shadow-xl  hover:shadow-[#dddf00] hover:text-stone-900 border border-dashed border-[#dddf00] text-[#dddf00]  font-slack font-extralight mt-10 ">
-          Submit
-        </button>
-      </div>
-      <div className=" w-11/12 bg-stone-800  rounded-2xl flex flex-col items-start justify-start text-white py-3 px-6 ">
-        <div className="flex  items-end justify-center  gap-2 ">
-          <p className="sm:text-5xl text-3xl text-[#dddf00] font-slack">
-            $5,000{" "}
-          </p>{" "}
-          <span>:Withdrawn</span>
-        </div>
-        <p className="mt-4 text-xs">Want to Withdraw More ??</p>
-        <div className="flex gap-8 justify-start items-center w-full mt-8">
-          <p className="text-sm sm:text-base"> Enter Amount</p>{" "}
-          <input
-            type="number"
-            className="bg-transparent shadow-xl shadow-[#dddf00] border-none active:border-none focus:outline-none  rounded-md sm:text-4xl p-3 text-xl text-center active:outline-none active:border-black w-4/6 font-slack"
-            placeholder="Amount"
-          />
-        </div>
-        <button className="sm:text-2xl text-x/l py-1 px-3 rounded-md transition-all duration-150 ease-linear hover:bg-[#bbbf00] hover:shadow-xl  hover:shadow-[#dddf00] hover:text-stone-900 border border-dashed border-[#dddf00] text-[#dddf00]  font-slack font-extralight mt-10 ">
-          Submit
-        </button>
-      </div>
-      <div className=" w-11/12 bg-stone-800  rounded-2xl flex flex-col items-start justify-start text-white py-3 px-6 ">
-        <div className="flex  items-end justify-center  gap-2 ">
-          <p className="sm:text-5xl text-3xl text-[#dddf00] font-slack">
-            Repay:)
-          </p>{" "}
-        </div>
-        <p className="mt-4 text-xs">Thanks for repaying the payments</p>
+    <div>
+      {hasRegistered ? (
+        <DashboardLayout />
+      ) : (
+        <div className=" bg-gradient-to-b from-stone-700 to-[#dddf00] flex items-center justify-center ">
+          <div className="min-h-screen w-full  flex items-center  sm:justify-center  justify-start ">
+            <div className="flex items-start   justify-start">
+              <img
+                src="/images/man.png"
+                alt="man"
+                className=" z-10 w-3/5 sm:w-full "
+              />
+              <div className="flex items-center flex-col justify-start ">
+                {isConnected ? (
+                  <button
+                    className="sm:text-2xl text-x/l py-1 px-3 rounded-md transition-all duration-150 ease-linear hover:bg-[#bbbf00] hover:shadow-2xl  hover:shadow-[#dddf00] hover:text-stone-900 border border-dashed border-[#dddf00] text-[#dddf00]  font-slack font-extralight mt-14 mr-16"
+                    onClick={register}
+                  >
+                    Register
+                  </button>
+                ) : (
+                  <button
+                    className="sm:text-2xl text-x/l py-1 px-3 rounded-md transition-all duration-150 ease-linear hover:bg-[#bbbf00] hover:shadow-2xl  hover:shadow-[#dddf00] hover:text-stone-900 border border-dashed border-[#dddf00] text-[#dddf00]  font-slack font-extralight mt-14 mr-16"
+                    onClick={connect}
+                  >
+                    Connect
+                  </button>
+                )}
+                <img
+                  src="/images/uparr.png"
+                  alt="uparr"
+                  className="w-24 mr-16 mt-24 animate-bounce hover:animate-none "
+                />
+              </div>
+            </div>
 
-        <button className="sm:text-2xl mx-auto my-auto text-x/l py-1 px-3 rounded-md transition-all duration-150 ease-linear hover:bg-[#bbbf00] hover:shadow-xl  hover:shadow-[#dddf00] hover:text-stone-900 border border-dashed border-[#dddf00] text-[#dddf00]  font-slack font-extralight mt-10 ">
-          Repay
-        </button>
-      </div>
+            <h1 className="font-slack font-semibold sm:text-7xl text-5xl text-center text-stone-900 mt-auto absolute top-3/4 left-2/4 -translate-x-1/2  z-0">
+              {isConnected
+                ? "Registration in One Click"
+                : "Connect wallet to register"}
+            </h1>
+            <ToastContainer />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
